@@ -50,219 +50,11 @@
 										<h3>Intro</h3>
 
 										<ul>
-											<li>Becasue of Python's dynamic nature, there are some differences in implementation with comaprison to other static typed laguages for which design patterns were originally made up.</li>
-											<li>Design patterns apply to object-oriented application design that appears in different scenarios where we model logic or problem that we try to solve with this app.</li>
-											<li>In other words, design patterns are abstract ideas on objects layout, how they interact with each other for in a particular scenario.</li>
-											<li>One again due to Pythonic nautre, some of desing matterns can't fid their implementation but some of them are already embedded in Python itself.</li>
-											<li>The best thing about them is that they provide common language to efficiently communicate design ideas among developers.</li>
-										</ul>
-
-										<p style="font-size:22px; border-bottom: 1px solid #cacaca; padding-bottom:4px;"><b>Creational Desing Patterns</b></p>
-
-										<h5>Factory:</h5>
-										<ul>
-											<li>Everythin in Python is an object and can be treated equally no metther if it is a class, a function or custom objects attached to variable. They can be simply created, passed as parameter or assigned.</li>
-											<li>Due to this fact factory pattern is not really needed. We can simply creat function that accepts a class as a parameter to create a set of objets.</li>
-											<li>Code example:
-<!-- code area start -->
-<pre>
-class <span style="color:#00ffea">ExampleClass</span>:
-  def __init__(self, x, y):
-    self.x = x
-    self.y = y
-
-def main():
-  list_of_objects = [<span style="color:#00ffea">ExampleClass(x, x*2)</span> for x in range(10)]
-  print(list_of_objects[2].y)
-
---------------
-# output:
-# 4
-</pre>
-<!-- code area stop -->
-											</li>
-										</ul>
-
-										<h5>Singleton:</h5>
-										<ul>
-											<li>It is a type of creational pattern that restrics to have only one object of a particular type.</li>
-											<li>No matter how many instantiation I want to make:
-												<br>
-												<code>s1 = Singleton()</code><br>
-												<code>s2 = Singleton()</code><br>
- 												there will be always one object that variables <code>s1</code> and <code>s2</code> points to.</li>
-										</ul>
-
-										<h5>Builder:</h5>
-										<ul>
-											<li>Without builder pattern:
-												<br>
-												- Typical apporach would be creating base class and then creating a set of subclasses that extend the base class.
-												Each subclass would bring some extenstions to fulfil its own specialized requirement.<br>
-												- The danger of this approch is ending up with a big amount of subclasses and each additional requirement that comes in grows that hierarchy even more.
-											</li>
-											<li>With Builder pattern:
-												<br>
-												<code>Builder makes creating complex objects from a baisc object much easier</code><br>
-												- It's very useful when we have a basic model and based on that model we want to create multiple modified models from the original one.<br>
-												- For example a plain house is a basic model, however a house with swimming pool and 3 floors is a modification of the basic model of house.
-											</li>
-											<li>Builder organizes the code into series of steps that are executed one by one when building an object.
-													Importantly, we do not have to call all of the steps.
-													We have to call only these steps that are necessary for a specific model of house from example above.
-													We can call each step in the sequence we want on our own or we can use a special class called <b>director</b> which has a specific step sequence prepared up front.
-											</li>
-											<li>Code example:
-<!-- code area start -->
-<pre>
-from abc import ABC
-
-class <span style="color:#00ffea">Builder(</span>ABC<span style="color:#00ffea">)</span>:
-
-  @abstractproperty
-    def product(self) -> None:
-      pass
-
-  @abstractmethod
-    def produce_part_a(self) -> None:
-      pass
-
-  @abstractmethod
-    def produce_part_b(self) -> None:
-      pass
-
-  @abstractmethod
-    def produce_part_c(self) -> None:
-      pass
-
-class <span style="color:#e48eff">ConcreteBuilder1(</span><span style="color:#00ffea">Builder</span><span style="color:#e48eff">)</span>:
-
-  def __init__(self) -> None:
-    self.reset()
-
-  def reset(self) -> None:
-    self._product = Product1()
-
-  @property
-  def product(self) -> Product1:
-    product = self._product
-    self.reset()
-    return product
-
-  def produce_part_a(self) -> None:
-    self._product.add("PartA1")
-
-  def produce_part_b(self) -> None:
-    self._product.add("PartB1")
-
-  def produce_part_c(self) -> None:
-    self._product.add("PartC1")
-</pre>
-<!-- code area stop -->
-												- Builder abstract class is the interface with abstract methods which are the steps of building an object.<br>
-												- Actual builder class follows builder's interface and provides implementation for building steps:<br>
-												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_a,<br>
-												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_b,<br>
-												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_c.<br>
-												- Each newly-created builder instance should be a blank object which will be extending with specific building steps as per needs.<br>
-<!-- code area start -->
-<pre>
-class <span style="color:#00ff45">Product1()</span>:
-
-  def __init__(self) -> None:
-    self.parts = []
-
-  def add(self, part) -> None:
-    self.parts.append(part)
-
-  def list_parts(self) -> None:
-    print(f"Product parts: {', '.join(self.parts)}", end="")
-</pre>
-<!-- code area stop -->
-												- Final object of Product1 class can be a basic product (no additional parts) or very extended protduct (multiple parts).<br>
-												- How many parts an object inlcudes - it depends on how many and what building methods client, using the code, calls.<br>
-												- Methods (building steps) that are very specialized for that builder's objects should be declared in that builder instead of interface.
-													It's not so good practice to keep methods in the interface that wont be used by some sub-classes.<br>
-												- We can have multiple builders for building different kind of objects, as to our house example, houses can have different walls: wooden or concrete.<br>
-												- We can use director class that orchestrate building specific objects by ordered sequence of steps.
-											</li>
-										</ul>
-
-										<p style="font-size:22px; border-bottom: 1px solid #cacaca; padding-bottom:4px;"><b>Behavioral Desing Patterns</b></p>
-
-										<h5>State:</h5>
-										<ul>
-											<li>Without state pattern:
-												<br>
-												- Common practice when not using state pattern is implementing a lot of if statements that select appropriate behaviour depending on the current object's state.<br>
-												- In that case a state is basically a set of values of the object's properties.<br>
-												- The biggest disadvantage of this solution is once we start adding more states and state-dependent bahaviours the code becomes diffictul to maintain.<br>
-												- This is because the whole logic may require changing state condtions in every method it applies.<br>
-												- And this is pretty certain that at the app's desing stage we may be not able to predict all the possible states and bahaviours. Hence, the problem gets bigger as project evolves.
-											</li>
-											<li>With state pattern:
-												<br>
-												<code>It allows object to alter ist behaviour when its internal state changes</code><br>
-												-	The main idea is that there is a set of finite number of predetermined states that the object can be in at any give moment. Depending on the current state, the object can be behaving differently.<br>
-												-	The solution that state pattern provides is to create new classes for all possible states the object can take and input all state-specific behavior into these classes.<br>
-												-	The main obejct, whose state we observe, stores reference to one of the state objet representing its current state and delegates state-related behaviour to that object.<br>
-												-	In the State pattern, the particular states are aware of each other and on states we can initiate transition to another one.
-											</li>
-											<li>Code example:
-<!-- code area start -->
-<pre>
-from abc import ABC, abstractmethod
-
-class <span style="color:#00ffea">State(</span>ABC<span style="color:#00ffea">)</span>:
-
-  @abstractmethod
-  def handle(self):
-    pass
-
-class <span style="color:#e48eff">Context</span>:
-
-  def __init__(self, state):
-    self.transition_to(state)
-
-  def transition_to(self, state):
-    print(f"Context: Transition to {type(state).__name__}")
-    self._state = state                 # current state
-    self._state.context = self          # current context that got a specifc state
-
-  def request(self):
-    self._state.handle()
-
-class <span style="color:#ffe200">StateA(</span><span style="color:#00ffea">State</span><span style="color:#ffe200">)</span>:
-
-  def handle(self):
-    print("<span style="color:#ffe200">StateA</span> handles request and wants to change the state of the context.")
-    self.context.transition_to(<span style="color:#00ff45">StateB()</span>)
-
-class <span style="color:#00ff45">StateB(</span><span style="color:#00ffea">State</span><span style="color:#00ff45">)</span>:
-
-  def handle(self):
-    print("<span style="color:#00ff45">StateB</span> handles request and wants to change the state of the context.")
-    self.context.transition_to(<span style="color:#ffe200">StateA()</span>)
-
-def main():
-  context = <span style="color:#e48eff">Context(</span><span style="color:#ffe200">StateA()</span><span style="color:#e48eff">)</span>
-  context.request()
-  context.request()
-
-if __name__ == "__main__":
-  # The client code.
-  main()
-</pre>
-<!-- code area stop -->
-											</li>
-										</ul>
-
-										<p style="font-size:22px; border-bottom: 1px solid #cacaca; padding-bottom:4px;">Structural Design Patterns</p>
-
-										<h5>...</h5>
-										<ul>
-											<li>...</li>
-											<li>...</li>
+											<li>Becasue of Python's dynamic nature, there are some differences in the implementation with comaprison to other static typed laguages for which design patterns were originally made up.</li>
+											<li>Design patterns apply to object-oriented software design that appears in different scenarios where we model logic or problem that we try to solve.</li>
+											<li>In other words, design patterns are abstract ideas on objects layout, how they interact with each other in a particular scenario.</li>
+											<li>Once again, due to Pythonic nautre, some of desing patterns can't find their implementation but some of them are already embedded in Python itself.</li>
+											<li>The best thing about them is that they provide a common language to efficiently communicate design ideas among developers.</li>
 										</ul>
 
 									</header>
@@ -285,11 +77,291 @@ if __name__ == "__main__":
 								<div class="container">
 									<h3>Demo</h3>
 
-									<h5>...:</h5>
+									<h5>We can encapsulate design patterns with 3 groups:</h5>
 									<ul>
-										<li>...</li>
+										<li>Creational Desing Patterns</li>
+										<li>Behavioral Desing Patterns</li>
+										<li>Structural Desing Patterns</li>
 									</ul>
 
+									<p style="font-size:22px; border-bottom: 1px solid #cacaca; padding-bottom:4px;"><b>Creational Desing Patterns</b></p>
+
+									<h5>Factory:</h5>
+									<ul>
+										<li>Everything in Python is an object and can be treated equally no metther if it's a class, a function or a custom object attached to variable. They can be simply created, passed as parameter or assigned.</li>
+										<li>Due to this fact factory pattern is not really needed. We can simply create function that accepts a class as a parameter to create a set of objets.</li>
+										<li>Code example:
+<!-- code area start -->
+<pre>
+class <span style="color:#00ffea">ExampleClass</span>:
+def __init__(self, x, y):
+	self.x = x
+	self.y = y
+
+def main():
+list_of_objects = [<span style="color:#00ffea">ExampleClass(x, x*2)</span> for x in range(10)]
+print(list_of_objects[2].y)
+
+--------------
+# output:
+# 4
+</pre>
+<!-- code area stop -->
+										</li>
+									</ul>
+
+									<h5>Singleton:</h5>
+									<ul>
+										<li>It is a type of creational pattern that restrics to have only one object of a particular type.</li>
+										<li>No matter how many instantiation I want to make:
+											<br>
+											<code>s1 = Singleton()</code><br>
+											<code>s2 = Singleton()</code><br>
+											there will be always one object that variables <code>s1</code> and <code>s2</code> points to.</li>
+									</ul>
+
+									<h5>Builder:</h5>
+									<ul>
+										<li>Without builder pattern:
+											<br>
+											- Typical apporach would be creating base class and then creating a set of subclasses that extend the base class.
+											Each subclass would bring some extenstions to fulfil its own specialized requirement.<br>
+											- The danger of this approch is ending up with a big amount of subclasses and each additional requirement that comes in grows that hierarchy even more.
+										</li>
+										<li>With Builder pattern:
+											<br>
+											<code>Builder makes creating complex objects from a baisc object much easier</code><br>
+											- It's very useful when we have a basic model and based on that model we want to create multiple modified models.<br>
+											- For example a plain house is a basic model, however a house with swimming pool and 3 floors is a modification of the basic model of house.
+										</li>
+										<li>Builder organizes the code into series of steps that are executed one by one when building an object.
+												Importantly, we do not have to call all of the steps.
+												We have to call only these steps that are necessary for a specific model of house from example above.
+												We can call each step in the sequence we want on our own or we can use a special class called <b>director</b> which has a specific step sequence prepared up front.
+										</li>
+										<li>Code example:
+<!-- code area start -->
+<pre>
+from abc import ABC
+
+class <span style="color:#00ffea">Builder(</span>ABC<span style="color:#00ffea">)</span>:
+
+@abstractproperty
+	def product(self) -> None:
+		pass
+
+@abstractmethod
+	def produce_part_a(self) -> None:
+		pass
+
+@abstractmethod
+	def produce_part_b(self) -> None:
+		pass
+
+@abstractmethod
+	def produce_part_c(self) -> None:
+		pass
+
+class <span style="color:#e48eff">ConcreteBuilder1(</span><span style="color:#00ffea">Builder</span><span style="color:#e48eff">)</span>:
+
+def __init__(self) -> None:
+	self.reset()
+
+def reset(self) -> None:
+	self._product = <span style="color:#00ff45">Product1()</span>
+
+@property
+def product(self) -> <span style="color:#00ff45">Product1</span>:
+	product = self._product
+	self.reset()
+	return product
+
+def produce_part_a(self) -> None:
+	self._product.add("PartA1")
+
+def produce_part_b(self) -> None:
+	self._product.add("PartB1")
+
+def produce_part_c(self) -> None:
+	self._product.add("PartC1")
+</pre>
+<!-- code area stop -->
+											- Builder abstract class is the interface with abstract methods which are the building steps.<br>
+											- Actual builder class follows builder's interface and provides implementation for building steps:<br>
+											&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_a,<br>
+											&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_b,<br>
+											&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_c.<br>
+											- Each newly-created builder instance should be a blank object which will be extending with specific building steps as per needs.<br>
+<!-- code area start -->
+<pre>
+class <span style="color:#00ff45">Product1()</span>:
+
+def __init__(self) -> None:
+	self.parts = []
+
+def add(self, part) -> None:
+	self.parts.append(part)
+
+def list_parts(self) -> None:
+	print(f"Product parts: {', '.join(self.parts)}", end="")
+</pre>
+<!-- code area stop -->
+											- Final object of Product1 class can be a basic product (no additional parts) or very extended protduct (multiple parts).<br>
+											- How many parts an object inlcudes, it depends on how many and what building methods client, using the code, calls.<br>
+<!-- code area start -->
+<pre>
+def main():
+
+builder = <span style="color:#e48eff">ConcreteBuilder1()</span>
+builder.produce_part_a()
+builder.produce_part_b()
+builder.product.list_parts()
+
+if __name__ == "__main__":
+main()
+
+------------------
+# output:
+# Product parts: PartA1, PartB1
+</pre>
+<!-- code area stop -->
+											- Methods (building steps) that are very specialized for that builder's objects should be declared in that builder instead of interface.
+												It's not so good practice to keep methods in the interface that wont be used by some sub-classes.<br>
+											- We can have multiple builders for building different kind of objects, as to our house example, houses can have different walls: wooden or concrete.<br>
+											- We can use director class that orchestrate building specific objects by ordered sequence of steps.
+										</li>
+									</ul>
+
+									<p style="font-size:22px; border-bottom: 1px solid #cacaca; padding-bottom:4px;"><b>Behavioral Desing Patterns</b></p>
+
+									<h5>State:</h5>
+									<ul>
+										<li>Without state pattern:
+											<br>
+											- The way withou state pattern is implementing a lot of if statements that select appropriate behaviour depending on the current object's state.<br>
+											- In that case a state is basically a set of values of the object's properties.<br>
+											- The biggest disadvantage of this solution is once we start adding more states and state-dependent bahaviours the code becomes diffictul to maintain.<br>
+											- This is because the whole logic may require changing state condtions in every method it applies.<br>
+											- And this is pretty certain that at the app's desing stage we may be not able to predict all the possible states and bahaviours. Hence, the problem gets bigger as project evolves.
+										</li>
+										<li>With state pattern:
+											<br>
+											<code>It allows object to alter ist behaviour when its internal state changes</code><br>
+											-	The main idea is that there is a set of finite number of predetermined states that the object can be in at any give moment. Depending on the current state, the object can be behaving differently.<br>
+											-	The solution that state pattern provides is to create new classes for all possible states the object can take and input all state-specific behavior into these classes.<br>
+											-	The main obejct, whose state we observe, stores reference to one of the state objet representing its current state and delegates state-related behaviour to that object.<br>
+											-	In the State pattern, the particular states are aware of each other and on states we can initiate transition to another one.
+										</li>
+										<li>Code example:
+<!-- code area start -->
+<pre>
+from abc import ABC, abstractmethod
+
+class <span style="color:#00ffea">State(</span>ABC<span style="color:#00ffea">)</span>:
+
+@abstractmethod
+def handle(self):
+	pass
+
+class <span style="color:#e48eff">Context</span>:
+
+def __init__(self, state):
+	self.transition_to(state)
+
+def transition_to(self, state):
+	print(f"Context: Transition to {type(state).__name__}")
+	self._state = state                 # current state
+	self._state.context = self          # current context that got a specifc state
+
+def request(self):
+	self._state.handle()
+
+class <span style="color:#ffe200">StateA(</span><span style="color:#00ffea">State</span><span style="color:#ffe200">)</span>:
+
+def handle(self):
+	print("<span style="color:#ffe200">StateA</span> handles request and wants to change the state of the context.")
+	self.context.transition_to(<span style="color:#00ff45">StateB()</span>)
+
+class <span style="color:#00ff45">StateB(</span><span style="color:#00ffea">State</span><span style="color:#00ff45">)</span>:
+
+def handle(self):
+	print("<span style="color:#00ff45">StateB</span> handles request and wants to change the state of the context.")
+	self.context.transition_to(<span style="color:#ffe200">StateA()</span>)
+
+def main():
+context = <span style="color:#e48eff">Context(</span><span style="color:#ffe200">StateA()</span><span style="color:#e48eff">)</span>
+context.request()
+context.request()
+
+if __name__ == "__main__":
+# The client code.
+main()
+</pre>
+<!-- code area stop -->
+										</li>
+									</ul>
+
+									<p style="font-size:22px; border-bottom: 1px solid #cacaca; padding-bottom:4px;">Structural Design Patterns</p>
+
+									<h5>Facade:</h5>
+									<ul>
+										<li>Facade pattern provides a single interface to more complex classes, systems, libraries or frameworks.</li>
+										<li>The Facade delegates the client requests to the objects within the subsystem.</li>
+
+
+										<li>Code example:
+<!-- code area start -->
+<pre>
+class <span style="color:#00ffea">Facade</span>:
+
+def __init__(self, subsystem1: Subsystem1, subsystem2: Subsystem2) -> None:
+	self._subsystem1 = subsystem1  				# or Subsystem1()
+	self._subsystem2 = subsystem2  				# or Subsystem2()
+
+def operation(self) -> str:
+	results = []
+
+	results.append("Facade initializes subsystems:")
+	results.append(self._subsystem1.operation1())
+	results.append(self._subsystem2.operation1())
+
+	results.append("Facade orders subsystems to perform the action:")
+	results.append(self._subsystem1.operation_n())
+	results.append(self._subsystem2.operation_z())
+
+	return "\n".join(results)
+
+class <span style="color:#e48eff">Subsystem1</span>:
+
+def operation1(self) -> str:
+	return "Subsystem1: Ready!"
+
+def operation_n(self) -> str:
+	return "Subsystem1: Go!"
+
+class <span style="color:#ffe200">Subsystem2</span>:
+
+def operation1(self) -> str:
+	return "Subsystem2: Get ready!"
+
+def operation1(self) -> str:
+	return "Subsystem2: Get ready!"
+
+def main():
+
+subsystem1 = <span style="color:#e48eff">Subsystem1()</span>
+subsystem2 = <span style="color:#ffe200">Subsystem2()</span>
+facade = <span style="color:#00ffea">Facade(</span>subsystem1, subsystem2<span style="color:#00ffea">)</span>
+facade.operation()
+
+if __name__ == "__main__":
+main()
+</pre>
+<!-- code area stop -->
+											- The Subsystem can accept requests either from the facade or client directly.<br>
+											- The Facade is yet another client, and it's not a part of the Subsystem.
+										</li>
+									</ul>
 								</div>
 							</section>
 
