@@ -218,7 +218,7 @@ builder.produce_part_b()
 builder.product.list_parts()
 
 if __name__ == "__main__":
-main()
+  main()
 
 ------------------
 # output:
@@ -355,11 +355,17 @@ facade = <span style="color:#00ffea">Facade(</span>subsystem1, subsystem2<span s
 facade.operation()
 
 if __name__ == "__main__":
-main()
+  main()
+
+------------------
+# output:
+
 </pre>
 <!-- code area stop -->
 											- The Subsystem can accept requests either from the facade or client directly.<br>
-											- The Facade is yet another client, and it's not a part of the Subsystem.
+											- The Facade is yet another client, and it's not a part of the Subsystem.<br>
+											- Client passes objects: subsystem1 and subsysem2 into Facade.<br>
+											- Facade as middleman includes all methods that can be pefromed on both subsystems - they are groupped in facade's operation method.
 										</li>
 									</ul>
 								</div>
