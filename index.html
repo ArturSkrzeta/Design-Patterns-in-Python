@@ -181,8 +181,8 @@ class <span style="color:#00ff45">Product1()</span>:
 <!-- code area stop -->
 												- Final object of Product1 class can be a basic product (no additional parts) or very extended protduct (multiple parts).<br>
 												- How many parts an object inlcudes - it depends on how many and what building methods client, using the code, calls.<br>
-												- Methods (building steps) that are very specified for the builder should be declared in that builder instead of interface.
-													It's not so good practice to keep methods in the interface that wont be used by some ub-classes.<br>
+												- Methods (building steps) that are very specialized for that builder's objects should be declared in that builder instead of interface.
+													It's not so good practice to keep methods in the interface that wont be used by some sub-classes.<br>
 												- We can have multiple builders for building different kind of objects, as to our house example, houses can have different walls: wooden or concrete.<br>
 												- We can use director class that orchestrate building specific objects by ordered sequence of steps.
 											</li>
