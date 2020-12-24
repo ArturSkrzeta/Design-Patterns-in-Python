@@ -62,7 +62,8 @@
 										<h5>Factory:</h5>
 										<ul>
 											<li>Everythin in Python is an object and can be treated equally no metther if it is a class, a function or custom objects attached to variable. They can be simply created, passed as parameter or assigned.</li>
-											<li>Due to this fact factory pattern is not really needed. We can simply creat function that accepts a class as a parameter to create a set of objets:
+											<li>Due to this fact factory pattern is not really needed. We can simply creat function that accepts a class as a parameter to create a set of objets.</li>
+											<li>Code example:
 <!-- code area start -->
 <pre>
 class <span style="color:#00ffea">ExampleClass</span>:
@@ -79,6 +80,7 @@ def main():
 # 4
 </pre>
 <!-- code area stop -->
+											</li>
 										</ul>
 
 										<h5>Singleton:</h5>
@@ -93,45 +95,67 @@ def main():
 
 										<h5>Builder:</h5>
 										<ul>
-											<li>Useful in situation when we have a basic model and based on that model we want to create multiple modifications of that model, e.g.:
+											<li>Without builder pattern:
 												<br>
-												- a plain house is a basic model, however a house with swimming pool and 3 floors is a modification of the basic model of house.
+												- Typical apporach would be creating base class and then creating a set of subclasses that extend the base class.
+												Each subclass would bring some extenstions to fulfil its own specialized requirement.<br>
+												- The danger of this approch is ending up with a big amount of subclasses and each additional requirement that comes in grows that hierarchy even more.
 											</li>
-											<li>Typical apporach withoud Builder would be creating base class and then creating a set of subclasses that extend the base class.
-													Each subclass would bring some extenstions to fulfil its own specialized requirement.
-													The danger of this approch is ending up with a big amount of subclasses and each additional requirement that comes in grows that hierarchy even more.
+											<li>With Builder pattern:
+												<br>
+												<code>Builder makes creating complex objects from a baisc object much easier.</code><br>
+												- Useful in situation when we have a basic model and based on that model we want to create multiple modifications of that model,<br>
+												- for example a plain house is a basic model, however a house with swimming pool and 3 floors is a modification of the basic model of house.
 											</li>
-											<li>Builder makes creating complex objects from a baisc object much easier.</li>
 											<li>Builder organizes the code into series of steps that are executed one by one when building an object.
 													Importantly, we do not have to call all of the steps.
 													We have to call only that steps that are necessary for a specific model of house from example above.
 													We can call each step in the sequence we want on our own or we can use a special class called director which has a specific step sequence prepared up front.
 											</li>
-											<li>In short:
-												<br>
+											<li>Code example:
+<!-- code area start -->
+<pre>
+class <span style="color:#00ffea">ExampleClass</span>:
+  def __init__(self, x, y):
+    self.x = x
+    self.y = y
+
+def main():
+  list_of_objects = [<span style="color:#00ffea">ExampleClass(x, x*2)</span> for x in range(10)]
+  print(list_of_objects[2].y)
+
+--------------
+# output:
+# 4
+</pre>
+<!-- code area stop -->
 												- builder abstract class presents interface with abstract metods which are actual steps of building an object,<br>
 												- builder classes provide implementation for these steps,<br>
 												- we can have multiple builders for building different kind of objects, as to our house example, houses can have different walls: wooden or concrete,<br>
 												- we can use director class that orchestrate building specific objects by ordered sequence of steps.
-											 </li>
+											</li>
 										</ul>
 
 										<p style="font-size:22px; border-bottom: 1px solid #cacaca; padding-bottom:4px;"><b>Behavioral Desing Patterns</b></p>
 
 										<h5>State:</h5>
 										<ul>
-											<li>It allows object to alter ist behaviour when its internal state changes.</li>
-											<li>The main idea is that there is a set of finite number of predetermined states that the object can be in at any give moment. Depending on the current state, the object can be behaving differently.</li>
-											<li>Common practice when not using state pattern is implementing a lot of if statements that select appropriate behaviour depending on the current object's state.
-												In that case a state is basically a set of values of the object's properties.
-												The biggest disadvantage of this solution is once we start adding more states and state-dependent bahaviours the code becomes diffictul to maintain.
-												This is because the whole logic may require changing state condtions in every method it applies.
-												And this is pretty certain that at the app's desing stage we may be not able to predict all the possible states and bahaviours.
-												Hence, the problem gets bigger as project evolves.
-									</li>
-											<li>The solution that state pattern provides is to create new classes for all possible states the object can take and input all state-specific behavior into these classes.</li>
-											<li>The main obejct, whose state we observe, stores reference to one of the state objet representing its current state and delegates state-related behaviour to that object.</li>
-											<li>In the State pattern, the particular states are aware of each other and on state can initiate transition to another.</li>
+											<li>Without state pattern:
+												<br>
+												- Common practice when not using state pattern is implementing a lot of if statements that select appropriate behaviour depending on the current object's state.<br>
+												- In that case a state is basically a set of values of the object's properties.<br>
+												- The biggest disadvantage of this solution is once we start adding more states and state-dependent bahaviours the code becomes diffictul to maintain.<br>
+												- This is because the whole logic may require changing state condtions in every method it applies.<br>
+												- And this is pretty certain that at the app's desing stage we may be not able to predict all the possible states and bahaviours. Hence, the problem gets bigger as project evolves.
+											</li>
+											<li>With state pattern:
+												<br>
+												- It allows object to alter ist behaviour when its internal state changes.<br>
+												-	The main idea is that there is a set of finite number of predetermined states that the object can be in at any give moment. Depending on the current state, the object can be behaving differently.<br>
+												-	The solution that state pattern provides is to create new classes for all possible states the object can take and input all state-specific behavior into these classes.<br>
+												-	The main obejct, whose state we observe, stores reference to one of the state objet representing its current state and delegates state-related behaviour to that object.<br>
+												-	In the State pattern, the particular states are aware of each other and on state can initiate transition to another.
+											</li>
 											<li>Code example:
 <!-- code area start -->
 <pre>
