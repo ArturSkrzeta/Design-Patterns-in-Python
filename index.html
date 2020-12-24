@@ -314,52 +314,57 @@ main()
 <pre>
 class <span style="color:#00ffea">Facade</span>:
 
-def __init__(self, subsystem1: Subsystem1, subsystem2: Subsystem2) -> None:
-	self._subsystem1 = subsystem1  				# or Subsystem1()
-	self._subsystem2 = subsystem2  				# or Subsystem2()
+  def __init__(self, subsystem1: Subsystem1, subsystem2: Subsystem2) -> None:
+    self._subsystem1 = subsystem1  				# or Subsystem1()
+    self._subsystem2 = subsystem2  				# or Subsystem2()
 
-def operation(self) -> str:
-	results = []
+  def operation(self) -> str:
 
-	results.append("Facade initializes subsystems:")
-	results.append(self._subsystem1.operation1())
-	results.append(self._subsystem2.operation1())
+    results = []
+    results.append("Facade initializes subsystems:")
+    results.append(self._subsystem1.operation1())
+    results.append(self._subsystem2.operation1())
 
-	results.append("Facade orders subsystems to perform the action:")
-	results.append(self._subsystem1.operation_n())
-	results.append(self._subsystem2.operation_z())
+    results.append("Facade orders subsystems to perform the action:")
+    results.append(self._subsystem1.operation_n())
+    results.append(self._subsystem2.operation_z())
 
-	return "\n".join(results)
+    return "\n".join(results)
 
 class <span style="color:#e48eff">Subsystem1</span>:
 
-def operation1(self) -> str:
-	return "Subsystem1: Ready!"
+  def operation1(self) -> str:
+    return "Subsystem1: Ready!"
 
-def operation_n(self) -> str:
-	return "Subsystem1: Go!"
+  def operation_n(self) -> str:
+    return "Subsystem1: Go!"
 
 class <span style="color:#ffe200">Subsystem2</span>:
 
-def operation1(self) -> str:
-	return "Subsystem2: Get ready!"
+  def operation1(self) -> str:
+    return "Subsystem2: Ready!"
 
-def operation1(self) -> str:
-	return "Subsystem2: Get ready!"
+  def operation1(self) -> str:
+    return "Subsystem2: Go!"
 
 def main():
 
-subsystem1 = <span style="color:#e48eff">Subsystem1()</span>
-subsystem2 = <span style="color:#ffe200">Subsystem2()</span>
-facade = <span style="color:#00ffea">Facade(</span>subsystem1, subsystem2<span style="color:#00ffea">)</span>
-facade.operation()
+  subsystem1 = <span style="color:#e48eff">Subsystem1()</span>
+  subsystem2 = <span style="color:#ffe200">Subsystem2()</span>
+  facade = <span style="color:#00ffea">Facade(</span>subsystem1, subsystem2<span style="color:#00ffea">)</span>
+  facade.operation()
 
 if __name__ == "__main__":
   main()
 
 ------------------
 # output:
-
+# Facade initializes subsystems:
+# Subsystem1: Ready!
+# Subsystem2: Ready!
+# Facade orders subsystems to perform the action:
+# Subsystem1: Go!
+# Subsystem2: Go!
 </pre>
 <!-- code area stop -->
 											- The Subsystem can accept requests either from the facade or client directly.<br>
