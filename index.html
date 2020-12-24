@@ -103,7 +103,7 @@ def main():
 											</li>
 											<li>With Builder pattern:
 												<br>
-												<code>Builder makes creating complex objects from a baisc object much easier.</code><br>
+												<code>Builder makes creating complex objects from a baisc object much easier</code><br>
 												- Useful in situation when we have a basic model and based on that model we want to create multiple modifications of that model,<br>
 												- for example a plain house is a basic model, however a house with swimming pool and 3 floors is a modification of the basic model of house.
 											</li>
@@ -115,24 +115,76 @@ def main():
 											<li>Code example:
 <!-- code area start -->
 <pre>
-class <span style="color:#00ffea">ExampleClass</span>:
-  def __init__(self, x, y):
-    self.x = x
-    self.y = y
+from abc import ABC
 
-def main():
-  list_of_objects = [<span style="color:#00ffea">ExampleClass(x, x*2)</span> for x in range(10)]
-  print(list_of_objects[2].y)
+class <span style="color:#00ffea">Builder(</span>ABC<span style="color:#00ffea">)</span>:
 
---------------
-# output:
-# 4
+  @abstractproperty
+    def product(self) -> None:
+      pass
+
+  @abstractmethod
+    def produce_part_a(self) -> None:
+      pass
+
+  @abstractmethod
+    def produce_part_b(self) -> None:
+      pass
+
+  @abstractmethod
+    def produce_part_c(self) -> None:
+      pass
+
+class <span style="color:#e48eff">ConcreteBuilder1(</span><span style="color:#00ffea">Builder</span><span style="color:#e48eff">)</span>:
+
+  def __init__(self) -> None:
+    self.reset()
+
+  def reset(self) -> None:
+    self._product = Product1()
+
+  @property
+  def product(self) -> Product1:
+    product = self._product
+    self.reset()
+    return product
+
+  def produce_part_a(self) -> None:
+    self._product.add("PartA1")
+
+  def produce_part_b(self) -> None:
+    self._product.add("PartB1")
+
+  def produce_part_c(self) -> None:
+    self._product.add("PartC1")
 </pre>
 <!-- code area stop -->
-												- builder abstract class presents interface with abstract metods which are actual steps of building an object,<br>
-												- builder classes provide implementation for these steps,<br>
-												- we can have multiple builders for building different kind of objects, as to our house example, houses can have different walls: wooden or concrete,<br>
-												- we can use director class that orchestrate building specific objects by ordered sequence of steps.
+												- Builder abstract class has interface with abstract metods which are the steps of building an object.<br>
+												- Actual builder classes follow builder interface and provide implementation for building steps:<br>
+												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_a,<br>
+												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_b,<br>
+												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_c.<br>
+												- Each newly-created builder instance should be a blank object which will be extending with specific steps as per needs.<br>
+<!-- code area start -->
+<pre>
+class <span style="color:#00ff45">Product1()</span>:
+
+  def __init__(self) -> None:
+    self.parts = []
+
+  def add(self, part) -> None:
+    self.parts.append(part)
+
+  def list_parts(self) -> None:
+    print(f"Product parts: {', '.join(self.parts)}", end="")
+</pre>
+<!-- code area stop -->
+												- Final object of Product1 class can be a basic product (no additional parts) or very extended protduct (multiple parts).<br>
+												- How many parts an object inlcudes - it depends on how many and what building methods client, using the code, calls.<br>
+												- Methods (building steps) that are very specified for the builder should be declared in that builder instead of interface.
+													It's not so good practice to keep methods in the interface that wont be used by some ub-classes.<br>
+												- We can have multiple builders for building different kind of objects, as to our house example, houses can have different walls: wooden or concrete.<br>
+												- We can use director class that orchestrate building specific objects by ordered sequence of steps.
 											</li>
 										</ul>
 
@@ -150,11 +202,11 @@ def main():
 											</li>
 											<li>With state pattern:
 												<br>
-												- It allows object to alter ist behaviour when its internal state changes.<br>
+												<code>It allows object to alter ist behaviour when its internal state changes</code><br>
 												-	The main idea is that there is a set of finite number of predetermined states that the object can be in at any give moment. Depending on the current state, the object can be behaving differently.<br>
 												-	The solution that state pattern provides is to create new classes for all possible states the object can take and input all state-specific behavior into these classes.<br>
 												-	The main obejct, whose state we observe, stores reference to one of the state objet representing its current state and delegates state-related behaviour to that object.<br>
-												-	In the State pattern, the particular states are aware of each other and on state can initiate transition to another.
+												-	In the State pattern, the particular states are aware of each other and on states we can initiate transition to another one.
 											</li>
 											<li>Code example:
 <!-- code area start -->
