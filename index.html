@@ -159,12 +159,12 @@ class <span style="color:#e48eff">ConcreteBuilder1(</span><span style="color:#00
     self._product.add("PartC1")
 </pre>
 <!-- code area stop -->
-												- Builder abstract class has interface with abstract metods which are the steps of building an object.<br>
-												- Actual builder classes follow builder interface and provide implementation for building steps:<br>
+												- Builder abstract class is the interface with abstract methods which are the steps of building an object.<br>
+												- Actual builder class follows builder's interface and provides implementation for building steps:<br>
 												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_a,<br>
 												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_b,<br>
 												&nbsp&nbsp&nbsp&nbsp>&nbsp produce_part_c.<br>
-												- Each newly-created builder instance should be a blank object which will be extending with specific steps as per needs.<br>
+												- Each newly-created builder instance should be a blank object which will be extending with specific building steps as per needs.<br>
 <!-- code area start -->
 <pre>
 class <span style="color:#00ff45">Product1()</span>:
